@@ -4,12 +4,11 @@ import glob
 
 CAMERA_SOURCES = ["1.mp4", "2.mp4", "3.mp4", "4.mp4"]
 NUM_CAMERAS = len(CAMERA_SOURCES)
-FRAME_SIZE = (480, 270)  # Размер каждого видеофрагмента
+FRAME_SIZE = (480, 270)  # Размер каждого видео
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 
-# ========= Дисторсия — калибровка камеры =========
+# Дисторсия — калибровка
 def calibrate_camera(chessboard_dir, chessboard_size=(9,6), square_size=25):
-    """calibrate using multiple chessboard images from chessboard_dir"""
     objp = np.zeros((chessboard_size[0]*chessboard_size[1],3), np.float32)
     objp[:,:2] = np.mgrid[0:chessboard_size[0],0:chessboard_size[1]].T.reshape(-1,2)*square_size
     obj_points, img_points = [], []
@@ -21,7 +20,7 @@ def calibrate_camera(chessboard_dir, chessboard_size=(9,6), square_size=25):
         if ret:
             obj_points.append(objp)
             img_points.append(corners)
-    # Калибровка (если найдены хотя бы 3 изображения)
+    # Калибровка (если >= 3 изображений)
     if len(obj_points) < 3:
         print("Недостаточно шахматных досок для калибровки.")
         return None, None, None, None
@@ -39,9 +38,7 @@ def undistort(img, mtx, dist):
     return dst[y:y+h, x:x+w]
 
 def main():
-    # Шаг 1. Калибровка камеры — расчет дисторсии
-    # chessboard_dir: подставь свою папку с изображениями шахматной доски!
-    chessboard_dir = 'calib_imgs'
+    chessboard_dir = 'calib_imgs' # тут нужна папка с изображениями доски
     mtx, dist, _, _ = calibrate_camera(chessboard_dir)
 
     print("Открытие 4-х видео...")
@@ -57,7 +54,7 @@ def main():
             ret, frame = cap.read()
             if not ret:
                 print("Видео закончилось."); return
-            # Применяем дисторсию (один раз расчитана)
+            # Применяем дисторсию
             frame = undistort(frame, mtx, dist)
             frame = cv2.resize(frame, FRAME_SIZE)
             # Добавляем подпись
