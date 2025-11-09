@@ -2,7 +2,12 @@ import cv2
 import numpy as np
 import glob
 
-CAMERA_SOURCES = ["1.mp4", "2.mp4", "3.mp4", "4.mp4"]
+CAMERA_SOURCES = [
+    "rtsp://127.0.0.1:8554/stream1",
+    "rtsp://127.0.0.1:8554/stream2",
+    "rtsp://127.0.0.1:8554/stream3",
+    "rtsp://127.0.0.1:8554/stream4"
+]
 NUM_CAMERAS = len(CAMERA_SOURCES)
 FRAME_SIZE = (480, 270)  # Размер каждого видео
 FONT = cv2.FONT_HERSHEY_SIMPLEX
