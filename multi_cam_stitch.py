@@ -3,10 +3,8 @@ import numpy as np
 import glob
 
 CAMERA_SOURCES = [
-    "rtsp://127.0.0.1:8554/stream1",
-    "rtsp://127.0.0.1:8554/stream2",
-    "rtsp://127.0.0.1:8554/stream3",
-    "rtsp://127.0.0.1:8554/stream4"
+    "rtsp://admin:kontour1@169.254.43.76:554/Streaming/Channels/101",
+    "rtsp://127.0.0.1:8554/stream1",  # временно тот же, для примера
 ]
 NUM_CAMERAS = len(CAMERA_SOURCES)
 FRAME_SIZE = (480, 270)  # Размер каждого видео
